@@ -27,8 +27,11 @@ export default function SyllabusPage() {
   }, [subjects.data, subjectId]);
 
   const tree = useLoader<TopicNode[]>(
-    () => (subjectId ? api.get<TopicNode[]>(`/topics/tree?subjectId=${subjectId}&withLessons=true`) : Promise.resolve([])),
-    [subjectId]);
+    () => (subjectId
+        ? api.get<TopicNode[]>(`/topics/tree?subjectId=${subjectId}&includeLessons=true`)
+        : Promise.resolve([])),
+    [subjectId]
+    );
   const flat = useMemo(() => flatten(tree.data ?? []), [tree.data]);
 
   const [open, setOpen] = useState(false);

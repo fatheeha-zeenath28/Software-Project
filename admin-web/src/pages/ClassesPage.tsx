@@ -33,10 +33,14 @@ export default function ClassesPage() {
     if (!form.courseId) return setFormError('Select a course');
     if (!form.name.trim()) return setFormError('Class name is required');
     if (form.capacity && Number(form.capacity) < 1) return setFormError('Capacity must be a positive number');
-    const body = { courseId: Number(form.courseId), name: form.name, schedule: form.schedule || undefined,
-      capacity: form.capacity ? Number(form.capacity) : undefined, description: form.description || undefined,
-      isActive: form.isActive };
-    try {
+    const body = {
+        courseId: Number(form.courseId),
+        name: form.name,
+        schedule: form.schedule || undefined,
+        capacity: form.capacity ? Number(form.capacity) : undefined,
+        description: form.description || undefined,
+    };
+            try {
       if (editing) await api.patch(`/classes/${editing.id}`, body);
       else await api.post('/classes', body);
       setOpen(false);
