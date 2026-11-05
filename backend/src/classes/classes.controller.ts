@@ -1,3 +1,4 @@
+
 import {
   Body,
   Controller,
@@ -19,6 +20,8 @@ import {
 import { ClassesService } from './classes.service';
 import { CreateClassDto } from './dto/create-class.dto';
 import { UpdateClassDto } from './dto/update-class.dto';
+import { AssignTeacherDto } from './dto/assign-teacher.dto';
+import { ReplaceTeacherDto } from './dto/replace-teacher.dto';
 
 @ApiTags('Classes')
 @Controller('classes')
@@ -72,22 +75,21 @@ export class ClassesController {
   @Post(':id/teachers')
   assignTeacher(
     @Param('id', ParseIntPipe) classId: number,
-    @Body('teacherId', ParseIntPipe) teacherId: number,
+    @Body() dto: AssignTeacherDto,
   ) {
-    return this.classes.assignTeacher(classId, teacherId);
+    return this.classes.assignTeacher(classId, dto.teacherId);
   }
 
   @Roles(Role.ADMIN)
   @Patch(':id/teachers/replace')
   replaceTeacher(
     @Param('id', ParseIntPipe) classId: number,
-    @Body('oldTeacherId', ParseIntPipe) oldTeacherId: number,
-    @Body('newTeacherId', ParseIntPipe) newTeacherId: number,
+    @Body() dto: ReplaceTeacherDto,
   ) {
     return this.classes.replaceTeacher(
       classId,
-      oldTeacherId,
-      newTeacherId,
+      dto.oldTeacherId,
+      dto.newTeacherId,
     );
   }
 }
