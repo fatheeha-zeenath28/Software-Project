@@ -1,8 +1,10 @@
 import { NavLink, Navigate, Route, Routes } from 'react-router-dom';
 import SubjectsPage from './pages/SubjectsPage';
+import CoursesPage from './pages/CoursesPage';
 
 const links = [
   { to: '/subjects', label: 'Subjects' },
+  { to: '/courses', label: 'Courses' },
 ];
 
 export default function App() {
@@ -24,6 +26,7 @@ export default function App() {
         <Routes>
           <Route path="/subjects" element={<SubjectsPage />} />
           <Route path="*" element={<Navigate to="/subjects" replace />} />
+          <Route path="/courses" element={<CoursesPage />} />
         </Routes>
       </main>
     </div>
