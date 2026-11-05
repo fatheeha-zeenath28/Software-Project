@@ -1,4 +1,6 @@
 import { NavLink, Navigate, Route, Routes } from 'react-router-dom';
+
+
 import SubjectsPage from './pages/SubjectsPage';
 import CoursesPage from './pages/CoursesPage';
 import ClassesPage from './pages/ClassesPage';
@@ -18,24 +20,33 @@ export default function App() {
     <div className="layout">
       <aside className="sidebar">
         <div className="brand">
-          ICTify <span>Admin</span>
+          ICTify
+          <span>Admin Portal</span>
         </div>
+
         <nav>
-          {links.map((l) => 
-          <NavLink key={l.to} to={l.to}>{l.label}</NavLink>)}
+          {links.map((link) => (
+            <NavLink key={link.to} to={link.to}>
+              <span>{link.label}</span>
+            </NavLink>
+          ))}
         </nav>
+
         <div className="mock-user">
-          Signed in as test admin 
+          <div>Signed in as</div>
+          <strong>Test Admin</strong>
         </div>
       </aside>
+
       <main className="content">
         <Routes>
+          <Route path="/" element={<Navigate to="/subjects" replace />} />
           <Route path="/subjects" element={<SubjectsPage />} />
-          <Route path="*" element={<Navigate to="/subjects" replace />} />
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/classes" element={<ClassesPage />} />
           <Route path="/assignments" element={<AssignmentsPage />} />
           <Route path="/syllabus" element={<SyllabusPage />} />
+          <Route path="*" element={<Navigate to="/subjects" replace />} />
         </Routes>
       </main>
     </div>
