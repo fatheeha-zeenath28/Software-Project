@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/models.dart';
 import '../services/api_service.dart';
+import 'subject_detail_screen.dart';
 
 class SubjectsScreen extends StatefulWidget {
   const SubjectsScreen({super.key, required this.api});
@@ -65,6 +66,11 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                         leading: CircleAvatar(child: Text(s.code.length > 3 ? s.code.substring(0, 3) : s.code)),
                         title: Text(s.name),
                         subtitle: Text('${s.courseCount} course(s) · ${s.topicCount} topic(s) · ${s.lessonCount} lesson(s)'),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => SubjectDetailScreen(api: widget.api, subject: s)),
+                        ),
                       ),
                     );
                   },
