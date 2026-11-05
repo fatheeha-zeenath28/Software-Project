@@ -3,12 +3,14 @@ import SubjectsPage from './pages/SubjectsPage';
 import CoursesPage from './pages/CoursesPage';
 import ClassesPage from './pages/ClassesPage';
 import AssignmentsPage from './pages/AssignmentsPage';
+import SyllabusPage from './pages/SyllabusPage';
 
 const links = [
   { to: '/subjects', label: 'Subjects' },
   { to: '/courses', label: 'Courses' },
   { to: '/classes', label: 'Classes' },
-  { to: '/assignments', label: 'Teacher Assignment' }
+  { to: '/assignments', label: 'Teacher Assignment' },
+  { to: '/syllabus', label: 'Syllabus & Topics' },
 ];
 
 export default function App() {
@@ -33,6 +35,7 @@ export default function App() {
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/classes" element={<ClassesPage />} />
           <Route path="/assignments" element={<AssignmentsPage />} />
+          <Route path="/syllabus" element={<SyllabusPage />} />
         </Routes>
       </main>
     </div>
