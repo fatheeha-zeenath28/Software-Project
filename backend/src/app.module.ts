@@ -9,7 +9,7 @@ import { MockUserGuard } from './common/auth/mock-user.guard';
 import { LessonsModule } from './lessons/lessons.module';
 
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule, LessonsModule],
   controllers: [AppController, HealthController],
   providers: [
     AppService,
