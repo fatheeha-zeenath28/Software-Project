@@ -10,6 +10,7 @@ import { MockUserGuard } from './common/auth/mock-user.guard';
 import { LessonsModule } from './lessons/lessons.module';
 import { SubjectsModule } from './subjects/subjects.module';
 import { CoursesModule } from './courses/courses.module';
+import { TeachersModule } from './teachers/teachers.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { CoursesModule } from './courses/courses.module';
     CoursesModule,
     ClassesModule,
     TopicsModule,
+     TeachersModule,
   ],
   controllers: [
     AppController,
