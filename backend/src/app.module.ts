@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { HealthController } from './health/health.controller';
 import { PrismaModule } from './prisma/prisma.module';
 import { MockUserGuard } from './common/auth/mock-user.guard';
+import { LessonsModule } from './lessons/lessons.module';
 
 @Module({
   imports: [PrismaModule],
