@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
+import { ClassesModule } from './classes/classes.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -16,6 +17,7 @@ import { CoursesModule } from './courses/courses.module';
     LessonsModule,
     SubjectsModule,
     CoursesModule,
+    ClassesModule,
   ],
   controllers: [
     AppController,
