@@ -1,0 +1,21 @@
+import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
+
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { HealthController } from './health/health.controller';
+import { PrismaModule } from './prisma/prisma.module';
+import { MockUserGuard } from './common/auth/mock-user.guard';
+
+@Module({
+  imports: [PrismaModule],
+  controllers: [AppController, HealthController],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: MockUserGuard,
+    },
+  ],
+})
+export class AppModule {}

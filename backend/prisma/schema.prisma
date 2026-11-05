@@ -1,0 +1,139 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  TEACHER
+  STUDENT
+}
+
+enum Medium {
+  SINHALA
+  ENGLISH
+  TAMIL
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  fullName     String   @map("full_name")
+  email        String   @unique
+  role         Role
+  passwordHash String?  @map("password_hash")
+  isActive     Boolean  @default(true) @map("is_active")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  teacherClasses TeacherClass[]
+  lessons        Lesson[]
+
+  @@map("users")
+}
+
+model Subject {
+  id          Int      @id @default(autoincrement())
+  code        String   @unique
+  name        String
+  description String?
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  courses Course[]
+  topics  Topic[]
+  lessons Lesson[]
+
+  @@map("subjects")
+}
+
+model Course {
+  id          Int      @id @default(autoincrement())
+  subjectId   Int      @map("subject_id")
+  title       String
+  description String?
+  medium      Medium   @default(SINHALA)
+  examYear    Int      @map("exam_year")
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  subject Subject      @relation(fields: [subjectId], references: [id], onDelete: Restrict)
+  classes ClassGroup[]
+
+  @@unique([subjectId, title, examYear])
+  @@map("courses")
+}
+
+model ClassGroup {
+  id          Int      @id @default(autoincrement())
+  courseId    Int      @map("course_id")
+  name        String
+  description String?
+  schedule    String?
+  capacity    Int?
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  course   Course         @relation(fields: [courseId], references: [id], onDelete: Restrict)
+  teachers TeacherClass[]
+
+  @@unique([courseId, name])
+  @@map("classes")
+}
+
+model TeacherClass {
+  teacherId  Int      @map("teacher_id")
+  classId    Int      @map("class_id")
+  assignedAt DateTime @default(now()) @map("assigned_at")
+
+  teacher    User       @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  classGroup ClassGroup @relation(fields: [classId], references: [id], onDelete: Cascade)
+
+  @@id([teacherId, classId])
+  @@map("teacher_classes")
+}
+
+model Topic {
+  id          Int      @id @default(autoincrement())
+  subjectId   Int      @map("subject_id")
+  parentId    Int?     @map("parent_id")
+  title       String
+  description String?
+  sortOrder   Int      @default(0) @map("sort_order")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  subject  Subject  @relation(fields: [subjectId], references: [id], onDelete: Restrict)
+  parent   Topic?   @relation("TopicTree", fields: [parentId], references: [id], onDelete: Restrict)
+  children Topic[]  @relation("TopicTree")
+  lessons  Lesson[]
+
+  @@index([subjectId, parentId])
+  @@map("topics")
+}
+
+model Lesson {
+  id          Int      @id @default(autoincrement())
+  subjectId   Int      @map("subject_id")
+  topicId     Int      @map("topic_id")
+  teacherId   Int      @map("teacher_id")
+  title       String
+  description String?
+  sortOrder   Int      @default(0) @map("sort_order")
+  isPublished Boolean  @default(true) @map("is_published")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  subject Subject @relation(fields: [subjectId], references: [id], onDelete: Restrict)
+  topic   Topic   @relation(fields: [topicId], references: [id], onDelete: Restrict)
+  teacher User    @relation(fields: [teacherId], references: [id], onDelete: Restrict)
+
+  @@index([topicId])
+  @@map("lessons")
+}
