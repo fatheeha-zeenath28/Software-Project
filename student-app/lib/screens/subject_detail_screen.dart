@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/models.dart';
 import '../services/api_service.dart';
+import 'syllabus_screen.dart';
 
 class SubjectDetailScreen extends StatelessWidget {
   const SubjectDetailScreen({super.key, required this.api, required this.subject});
@@ -11,6 +12,16 @@ class SubjectDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(subject.code)),
+      floatingActionButton: FloatingActionButton.extended(
+  icon: const Icon(Icons.account_tree_outlined),
+  label: const Text('Syllabus & lessons'),
+  onPressed: () => Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (_) => SyllabusScreen(api: api, subject: subject),
+    ),
+  ),
+),
       body: FutureBuilder<List<Course>>(
         future: api.getCourses(subject.id),
         builder: (context, snap) {
