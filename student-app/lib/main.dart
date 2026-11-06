@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'services/api_service.dart';
 import 'screens/subjects_screen.dart';
+import 'screens/subjects_screen.dart';
 
 void main() => runApp(StudentApp(api: ApiService()));
 

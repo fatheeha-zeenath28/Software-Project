@@ -9,9 +9,9 @@ class ApiService {
     try {
       res = await http.get(Uri.parse('${AppConfig.apiBaseUrl}$path'),
           headers: {'x-user-id': '${AppConfig.mockUserId}'}).timeout(const Duration(seconds: 15));
-    } catch (_) {
-      throw Exception('Cannot reach the server. Check your connection and API URL.');
-    }
+           } catch (e) {
+         throw Exception('Cannot reach the server: $e');
+       }
     final data = res.body.isEmpty ? null : jsonDecode(res.body);
     if (res.statusCode >= 400) {
       final msg = data is Map ? data['message'] : null;
