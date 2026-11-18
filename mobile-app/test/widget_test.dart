@@ -9,31 +9,24 @@ import 'package:alict_mobile_app/screens/teacher/lesson_form_screen.dart';
 import 'package:alict_mobile_app/screens/teacher/lesson_list_screen.dart';
 import 'package:alict_mobile_app/services/api_service.dart';
 
-/// Fake API so the tests run without the backend.
 class FakeApi extends ApiService {
   final ict = Subject(id: 1, code: 'ICT', name: 'Information & Communication Technology');
   LessonInput? created;
 
   @override
   Future<List<Subject>> getSubjects({String search = ''}) async => [ict];
-
   @override
   Future<List<TopicNode>> getSyllabus(int subjectId) async => [
         TopicNode(id: 1, title: 'Databases', children: [
           TopicNode(id: 2, title: 'SQL', lessons: [LessonSummary(id: 9, title: 'SELECT basics')]),
         ]),
       ];
-
   @override
   Future<List<TopicNode>> getTopicTree(int subjectId) async =>
       [TopicNode(id: 1, title: 'Databases', children: [TopicNode(id: 2, title: 'SQL')])];
-
   @override
-  Future<List<Lesson>> getMyLessons({int? subjectId}) async => [
-        Lesson(id: 1, subjectId: 1, topicId: 2, title: 'SQL - Introduction',
-            subjectCode: 'ICT', topicTitle: 'SQL'),
-      ];
-
+  Future<List<Lesson>> getMyLessons({int? subjectId}) async =>
+      [Lesson(id: 1, subjectId: 1, topicId: 2, title: 'SQL - Introduction', subjectCode: 'ICT', topicTitle: 'SQL')];
   @override
   Future<void> createLesson(LessonInput input) async => created = input;
 }
@@ -86,9 +79,7 @@ void main() {
 
   // ---------- Teacher ----------
   test('flattenTopics builds breadcrumb labels', () {
-    final flat = flattenTopics([
-      TopicNode(id: 1, title: 'Databases', children: [TopicNode(id: 2, title: 'SQL')]),
-    ]);
+    final flat = flattenTopics([TopicNode(id: 1, title: 'Databases', children: [TopicNode(id: 2, title: 'SQL')])]);
     expect(flat.map((t) => t.label), ['Databases', 'Databases › SQL']);
   });
 
