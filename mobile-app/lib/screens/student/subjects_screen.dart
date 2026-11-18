@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../models/models.dart';
 import '../../services/api_service.dart';
 import 'subject_detail_screen.dart';
+import '../../widgets/switch_role_button.dart';
 
 class SubjectsScreen extends StatefulWidget {
   const SubjectsScreen({super.key, required this.api});
@@ -25,7 +26,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Subjects')),
+     appBar: AppBar(title: const Text('Subjects'), actions: [SwitchRoleButton(api: widget.api)]),
       body: Column(children: [
         Padding(
           padding: const EdgeInsets.all(12),
